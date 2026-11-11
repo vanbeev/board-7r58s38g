@@ -1,0 +1,115 @@
+<title>Клиника Резкость · обзорная доска</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap">
+<style>
+/* Layout: одна колонка-доска; сцены строками (две пробы кадра), ниже голоса целиком и фразы парами. Тёмная палитра как у ролика. */
+:root {
+  --bg: #041C26; --panel: #0A2E3B; --line: #1D4A5A; --fg: #FFFFFF; --muted: #9FBCC6; --accent: #FFB347;
+  --font: "Manrope", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg: #EEF5F7; --panel: #FFFFFF; --line: #C5D9DF; --fg: #072A36; --muted: #4C6A75; --accent: #B86A00; color-scheme: light } }
+:root[data-theme="light"] { --bg: #EEF5F7; --panel: #FFFFFF; --line: #C5D9DF; --fg: #072A36; --muted: #4C6A75; --accent: #B86A00; color-scheme: light }
+body { background: var(--bg); color: var(--fg); font: 500 16px/1.5 var(--font); padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { max-width: 1100px; margin: 0 auto; display: grid; gap: 40px; }
+h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; font-weight: 800; margin: 0; text-wrap: balance; }
+h2 { font-size: 22px; font-weight: 800; margin: 0 0 14px; }
+p { margin: 0; color: var(--muted); }
+header { display: grid; gap: 10px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.facts b { color: var(--accent); font-weight: 800; }
+.scene { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); align-items: start; }
+.scene h3 { margin: 0; font-size: 17px; font-weight: 800; }
+.scene small { display: block; color: var(--muted); font-weight: 500; font-size: 13px; margin-top: 2px; }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); gap: 12px; min-width: 0; }
+.shots a { display: block; }
+.shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 8px; display: block; background: var(--panel); }
+.voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.card b { font-weight: 800; }
+audio { width: 100%; }
+.phrase { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); align-items: center; }
+.phrase .t small { display: block; color: var(--muted); font-size: 13px; margin-bottom: 2px; }
+.phrase .who { display: none; font-size: 12px; color: var(--muted); }
+.head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; font-size: 13px; color: var(--muted); font-weight: 700; }
+@media (max-width: 720px) {
+  .scene { grid-template-columns: 1fr; gap: 8px; }
+  .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phrase, .head { grid-template-columns: 1fr; gap: 6px; }
+  .head { display: none; }
+  .phrase .who { display: block; }
+}
+a:focus-visible, audio:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>
+
+<main>
+  <header>
+    <h1>Клиника: «Резкость»</h1>
+    <p>Обзор рилса TEAMAVA для клиники коррекции зрения. Кадры, голоса и фразы рядом. Ролик 9:16, около 37 секунд, всё нарисовано кодом.</p>
+    <div class="facts"><span><b>471</b> точка</span><span><b>183</b> резкие</span><span><b>69</b> золотые</span><span>башня к кубику <b>6,6 : 1</b></span><span>голос ускорен ×1,18</span></div>
+  </header>
+
+  <section>
+    <h2>Кадры по сценам</h2>
+    <div id="scenes"></div>
+  </section>
+
+  <section>
+    <h2>Голос целиком</h2>
+    <div class="voices">
+      <div class="card"><b>Alnilam</b><audio controls preload="none" src="audio/voice-alnilam.mp3"></audio></div>
+      <div class="card"><b>Sadaltager</b><audio controls preload="none" src="audio/voice-sadaltager.mp3"></audio></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Фразы рядом</h2>
+    <div class="head"><span>Текст для озвучки</span><span>Alnilam</span><span>Sadaltager</span></div>
+    <div id="phrases"></div>
+  </section>
+</main>
+
+<script>
+var SCENES = [
+  ["1 Хук", "радужка из размытия в резкость, бюджет и выручка"],
+  ["2 Запрос", "ночной фасад, окно с силуэтом"],
+  ["3 471", "471 размытая точка текут к клинике"],
+  ["4 183", "183 становятся резкими и входят в холл"],
+  ["5 69", "69 вспыхивают золотом"],
+  ["6 Выручка", "башня выручки и кубик бюджета"],
+  ["7 Финал", "город, ×6,6 и плашка TEAMAVA"]
+];
+var PHRASES = [
+  ["1 хук: бюджет", "Четыреста девяносто четыре тысячи шестьсот шестьдесят три рубля вложили в рекламу."],
+  ["1 хук: выручка", "Три миллиона двести семьдесят шесть тысяч двадцать четыре — получили от пациентов."],
+  ["2 запрос", "Всё начинается с запроса в Яндексе."],
+  ["3 период", "Яндекс Директ, январь — август две тысячи двадцать шестого:"],
+  ["3 число", "четыреста семьдесят один уникальный номер."],
+  ["4 пациенты", "Сто восемьдесят три человека стали пациентами."],
+  ["5 оплатили", "Шестьдесят девять — оплатили услуги."],
+  ["6 выручка", "Выручка — три миллиона двести семьдесят шесть тысяч двадцать четыре рубля."],
+  ["6 ROMI", "РОМИ — пятьсот шестьдесят два процента."],
+  ["7 ×6,6", "Шесть целых шесть десятых рубля на каждый рубль бюджета."],
+  ["7 бренд", "Тима́ва. Реклама, которую считают до оплаты."]
+];
+var sc = "";
+SCENES.forEach(function (s, i) {
+  var n = i + 1;
+  sc += '<div class="scene"><div><h3>' + s[0] + '</h3><small>' + s[1] + '</small></div><div class="shots">' +
+    '<a href="stills/' + n + 'a.jpg" target="_blank"><img loading="lazy" src="stills/' + n + 'a.jpg" alt="Сцена ' + n + ', начало"></a>' +
+    '<a href="stills/' + n + 'b.jpg" target="_blank"><img loading="lazy" src="stills/' + n + 'b.jpg" alt="Сцена ' + n + ', конец"></a></div></div>';
+});
+document.getElementById("scenes").innerHTML = sc;
+var ph = "";
+PHRASES.forEach(function (p, i) {
+  var n = ("0" + (i + 1)).slice(-2);
+  ph += '<div class="phrase"><div class="t"><small>' + p[0] + '</small>' + p[1] + '</div>' +
+    '<div><span class="who">Alnilam</span><audio controls preload="none" src="audio/alnilam-' + n + '.mp3"></audio></div>' +
+    '<div><span class="who">Sadaltager</span><audio controls preload="none" src="audio/sadaltager-' + n + '.mp3"></audio></div></div>';
+});
+document.getElementById("phrases").innerHTML = ph;
+// один плеер за раз
+document.addEventListener("play", function (e) {
+  document.querySelectorAll("audio").forEach(function (a) { if (a !== e.target) a.pause(); });
+}, true);
+</script>
