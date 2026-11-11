@@ -1,0 +1,49 @@
+<title>Массовый найм · обзорная доска</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap">
+<style>
+/* Layout: одна колонка-доска; сцены строками (две пробы кадра), ниже голоса целиком и фразы парами. Тёмная палитра как у ролика. */
+:root {
+  --bg: #041C26; --panel: #0A2E3B; --line: #1D4A5A; --fg: #FFFFFF; --muted: #9FBCC6; --accent: #FFB347;
+  --font: "Manrope", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg: #EEF5F7; --panel: #FFFFFF; --line: #C5D9DF; --fg: #072A36; --muted: #4C6A75; --accent: #B86A00; color-scheme: light } }
+:root[data-theme="light"] { --bg: #EEF5F7; --panel: #FFFFFF; --line: #C5D9DF; --fg: #072A36; --muted: #4C6A75; --accent: #B86A00; color-scheme: light }
+body { background: var(--bg); color: var(--fg); font: 500 16px/1.5 var(--font); padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { max-width: 1100px; margin: 0 auto; display: grid; gap: 40px; }
+h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; font-weight: 800; margin: 0; text-wrap: balance; }
+h2 { font-size: 22px; font-weight: 800; margin: 0 0 14px; }
+p { margin: 0; color: var(--muted); }
+header { display: grid; gap: 10px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.facts b { color: var(--accent); font-weight: 800; }
+.scene { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); align-items: start; }
+.scene h3 { margin: 0; font-size: 17px; font-weight: 800; }
+.scene small { display: block; color: var(--muted); font-weight: 500; font-size: 13px; margin-top: 2px; }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); gap: 12px; min-width: 0; }
+.shots a { display: block; }
+.shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 8px; display: block; background: var(--panel); }
+.voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.card b { font-weight: 800; }
+audio { width: 100%; }
+.phrase { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); align-items: center; }
+.phrase .t small { display: block; color: var(--muted); font-size: 13px; margin-bottom: 2px; }
+.phrase .who { display: none; font-size: 12px; color: var(--muted); }
+.head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; font-size: 13px; color: var(--muted); font-weight: 700; }
+@media (max-width: 720px) {
+  .scene { grid-template-columns: 1fr; gap: 8px; }
+  .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phrase, .head { grid-template-columns: 1fr; gap: 6px; }
+  .head { display: none; }
+  .phrase .who { display: block; }
+}
+a:focus-visible, audio:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>
+
+<main>
+  <header><h1>Массовый найм: «Поток»</h1><p>Рилс №2 TEAMAVA. Кадры сцен и озвучка Sadaltager. Ролик 9:16, около 28 секунд, всё нарисовано кодом.</p><p><a href="../index.html" style="color:var(--accent)">← Рилс №1 «Клиника»</a></p></header>
+  <section><h2>Озвучка целиком</h2><div class="card"><b>Sadaltager</b><audio controls preload="none" src="voice.mp3"></audio></div></section>
+  <section><h2>Кадры по сценам</h2><div class="scene"><div><h3>1 Ворота</h3></div><div class="shots"><a href="stills/1a.jpg" target="_blank"><img src="stills/1a.jpg" alt=""></a><a href="stills/1b.jpg" target="_blank"><img src="stills/1b.jpg" alt=""></a></div></div><div class="scene"><div><h3>2 Тысячи людей</h3></div><div class="shots"><a href="stills/2a.jpg" target="_blank"><img src="stills/2a.jpg" alt=""></a><a href="stills/2b.jpg" target="_blank"><img src="stills/2b.jpg" alt=""></a></div></div><div class="scene"><div><h3>3 Каналы</h3></div><div class="shots"><a href="stills/3a.jpg" target="_blank"><img src="stills/3a.jpg" alt=""></a><a href="stills/3b.jpg" target="_blank"><img src="stills/3b.jpg" alt=""></a></div></div><div class="scene"><div><h3>4 Бюджет</h3></div><div class="shots"><a href="stills/4a.jpg" target="_blank"><img src="stills/4a.jpg" alt=""></a><a href="stills/4b.jpg" target="_blank"><img src="stills/4b.jpg" alt=""></a></div></div><div class="scene"><div><h3>5 Заявки и цена</h3></div><div class="shots"><a href="stills/5a.jpg" target="_blank"><img src="stills/5a.jpg" alt=""></a><a href="stills/5b.jpg" target="_blank"><img src="stills/5b.jpg" alt=""></a></div></div><div class="scene"><div><h3>6 Финал</h3></div><div class="shots"><a href="stills/6a.jpg" target="_blank"><img src="stills/6a.jpg" alt=""></a><a href="stills/6b.jpg" target="_blank"><img src="stills/6b.jpg" alt=""></a></div></div></section>
+</main>
